@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>pageScrollAnimation.js</title>
+<script src="http://code.jquery.com/jquery-1.11.0.js"></script>
+<script src="pageScrollAnimation.js"></script>
+<style>
+body {
+	margin: 40px;
+}
+#scrollAnimation {
+	width: 8010px;
+	overflow: hidden;
+}
+#scrollAnimationVertical {
+	height: 2000px;
+}
+.section {
+	position: relative;
+	background: #EFEFEF;
+	border-left: 1px solid #000; 
+	width: 500px;
+	height: 300px;
+	float: left;
+	overflow: hidden;
+}
+#scrollAnimationVertical .section {
+	float: none;
+	border-bottom: 1px solid #000; 
+}
+.box {
+	background: #000;
+	position: absolute;
+	width: 50px;
+	height: 50px;
+}
+.b,.b-0 { left: 100px; top: 50px; }
+.b-a,.b-a-0 { left: 60px; top: 90px; }
+.c,.c-0 { left: 50px; top: 60px; }
+.d,.d-0 { left: 120px; top: 20px; }
+.red { background: #F00; }
+.green { background: green; }
+</style>
+<script>
+$(document).ready(function() {
+	var arr = [
+		{ $target: $('#item-b'),
+		  $parent: $('#item-b').parent(),
+		  order: {
+		  	top: 0.4,
+		  	left: -0.2
+		  }
+		},
+		{ $target: $('#item-b-a'),
+		  $parent: $('#item-b-a').parent(), 
+		  order: {
+		  	top: 0.6,
+		  	left: -0.4
+		  }
+		},
+		{ $target: $('#item-c'),
+		  $parent: $('#item-c').parent(), 
+		  order: {
+		  	top: 0.6,
+		  	left: 0.3
+		  }
+		},
+		{ $target: $('#item-d'),
+		  $parent: $('#item-d').parent(), 
+		  order: {
+		  	top: -0.4,
+		  	left: -0.2
+		  }
+		}
+	];
+
+	var arrv = [
+		{ $target: $('#vitem-b'),
+		  $parent: $('#vitem-b').parent(),
+		  order: {
+		  	top: 0.4,
+		  	left: -0.2
+		  }
+		},
+		{ $target: $('#vitem-b-a'),
+		  $parent: $('#vitem-b-a').parent(), 
+		  order: {
+		  	top: 0.6,
+		  	left: -0.4
+		  }
+		},
+		{ $target: $('#vitem-c'),
+		  $parent: $('#vitem-c').parent(), 
+		  order: {
+		  	top: 0.6,
+		  	left: 0.3
+		  }
+		},
+		{ $target: $('#vitem-d'),
+		  $parent: $('#vitem-d').parent(), 
+		  order: {
+		  	top: -0.4,
+		  	left: -0.2
+		  }
+		}
+	];
+	$('#scrollAnimation').pageScrollAnimation(
+		{ scenario: arr, direction: 'horizontal', callback: callback}
+	);
+	$('#scrollAnimationVertical').pageScrollAnimation(
+		{ scenario: arrv, callback: callback}
+	);
+
+	function callback() {
+		$('#item-b').one('complete', function() {
+			console.log('complete');
+		});
+	};
+});
+</script>
+</head>
+<body>
+<h1>pageScrollAnimation.js</h1>
+
+<h2>horizontal</h2>
+<div id="scrollAnimation">
+	<div class="section">
+		<div id="item-a" class="box a item"></div>
+	</div>
+	<div class="section">
+		<div id="item-b" class="box b item"></div>
+		<div class="box b-0 red"></div>
+		<div id="item-b-a" class="box b-a item"></div>
+		<div class="box b-a-0 green item"></div>
+	</div>
+	<div class="section">
+		<div id="item-c" class="box c item"></div>
+		<div class="box c-0 red item"></div>
+	</div>
+	<div class="section">
+		<div id="item-d" class="box d item"></div>
+		<div class="box d-0 red item"></div>
+	</div>
+</div>
+
+<h2>vertical</h2>
+<div id="scrollAnimationVertical">
+	<div class="section">
+		<div id="vitem-a" class="box a item"></div>
+	</div>
+	<div class="section">
+		<div id="vitem-b" class="box b item"></div>
+		<div class="box b-0 red"></div>
+		<div id="vitem-b-a" class="box b-a item"></div>
+		<div class="box b-a-0 green item"></div>
+	</div>
+	<div class="section">
+		<div id="vitem-c" class="box c item"></div>
+		<div class="box c-0 red item"></div>
+	</div>
+	<div class="section">
+		<div id="vitem-d" class="box d item"></div>
+		<div class="box d-0 red item"></div>
+	</div>
+</div>
+</body>
+</html>
