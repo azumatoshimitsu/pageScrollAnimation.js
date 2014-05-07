@@ -1,5 +1,6 @@
 $.fn.pageScrollAnimation = function(arg) {
 	var $root = $(this);
+	var $nav = $root.find('.nav a');
 	var $section = $root.find('.section');
 	var $item = $root.find('.item');
 	var scenario = arg.scenario;
@@ -14,8 +15,16 @@ $.fn.pageScrollAnimation = function(arg) {
 		$(window).scrollTop(1);
 	}
 
-	//スクロール量に応じてプロパティを設定
-	//$parent の位置 - スクロール量が 0 でオブジェクトの位置が揃う
+	$nav.bind('click', function(e) {
+		e.preventDefault();
+		var $target = $( $(this).attr('href') );
+		if(d === 'left') {
+			$('html,body').animate({ scrollLeft: $target.data('prop')[d] }, 800);
+		} else {
+			$('html,body').animate({ scrollTop: $target.data('prop')[d] }, 800);
+		}
+	});
+
 	$(window).bind('scroll', function(e) {
 		var scrollPos = (arg.direction === 'horizontal') ? $(window).scrollLeft() : $(window).scrollTop();
 
