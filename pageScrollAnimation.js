@@ -40,13 +40,20 @@ $.fn.pageScrollAnimation = function(arg) {
 					order[key] = Math.floor( calc * value ) + $item.data('prop')[key] + addUnit;
 				});
 				$item.css(order);
+				if( Number($parent.attr('data-flg')) > 0 ) {
+					$item.trigger('turn', $item);
+					$parent.attr('data-flg', -1);
+				}
 			} else {
 				$.each(this.order, function(key, value) {
 					var addUnit = unit[key] || '';
 					order[key] = $item.data('prop')[key] + addUnit;
 				});
 				$item.css(order);
-				$item.trigger('complete', $item);
+				if( Number($parent.attr('data-flg')) < 0 ) {
+					$item.trigger('complete', $item);
+					$parent.attr('data-flg', 1);
+				}
 			}
 		});
 	});
@@ -60,8 +67,8 @@ $.fn.pageScrollAnimation = function(arg) {
 			$(this).data( 'prop', {left: x, top: y} );
 			$(this).attr('data-x', x);
 			$(this).attr('data-y', y);
+			$(this).attr('data-flg', -1);
 		});
-
 		$item.each(function(index) {
 			var x = Number( $(this).css('left').replace('px', '') );
 			var y = Number( $(this).css('top').replace('px', '') );

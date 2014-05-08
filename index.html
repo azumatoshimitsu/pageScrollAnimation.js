@@ -109,12 +109,24 @@ $(document).ready(function() {
 		{ scenario: arr, direction: 'horizontal', callback: callback}
 	);
 	$('#scrollAnimationVertical').pageScrollAnimation(
-		{ scenario: arrv, callback: callback}
+		{ scenario: arrv, callback: callbackv}
 	);
 
 	function callback() {
-		$('#item-b').one('complete', function() {
+		$('#item-b').on('complete', function() {
 			console.log('complete');
+		});
+		$('#item-b').on('turn', function() {
+			console.log('turn');
+		});
+	};
+
+	function callbackv() {
+		$('#vitem-b').on('complete', function() {
+			console.log('complete v');
+		});
+		$('#vitem-b').on('turn', function() {
+			console.log('turn v');
 		});
 	};
 });
