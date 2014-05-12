@@ -35,16 +35,24 @@ body {
 	width: 50px;
 	height: 50px;
 }
+.item { left: 0; top: 0; }
 .b,.b-0 { left: 100px; top: 50px; }
 .b-a,.b-a-0 { left: 60px; top: 90px; }
 .c,.c-0 { left: 50px; top: 60px; }
 .d,.d-0 { left: 120px; top: 20px; }
 .red { background: #F00; }
 .green { background: green; }
+.alpha {opacity: 0; color: white}
 </style>
 <script>
 $(document).ready(function() {
 	var arr = [
+		{ $target: $('#opacity-0'),
+		  $parent: $('#opacity-0').parent(),
+		  order: {
+		  	opacity: -1
+		  }
+		},
 		{ $target: $('#item-b'),
 		  $parent: $('#item-b').parent(),
 		  order: {
@@ -57,6 +65,12 @@ $(document).ready(function() {
 		  order: {
 		  	top: 0.6,
 		  	left: -0.4
+		  }
+		},
+		{ $target: $('#opacity'),
+		  $parent: $('#opacity').parent(), 
+		  order: {
+		  	opacity: -1
 		  }
 		},
 		{ $target: $('#item-c'),
@@ -88,6 +102,12 @@ $(document).ready(function() {
 		  order: {
 		  	top: 0.6,
 		  	left: -0.4
+		  }
+		},
+		{ $target: $('#vopacity'),
+		  $parent: $('#vopacity').parent(), 
+		  order: {
+		  	opacity: 1
 		  }
 		},
 		{ $target: $('#vitem-c'),
@@ -144,17 +164,17 @@ $(document).ready(function() {
 		<a href="#section-3">3</a>
 	</nav>
 	<div id="section-0" class="section">
-		<div id="item-a" class="box a item"></div>
+		<div id="opacity-0" class="box a item"></div>
 	</div>
 	<div id="section-1" class="section">
 		<div id="item-b" class="box b item"></div>
-		<div class="box b-0 red"></div>
+		<div class="box b-0 red item">0 - 1</div>
 		<div id="item-b-a" class="box b-a item"></div>
 		<div class="box b-a-0 green item"></div>
 	</div>
 	<div id="section-2" class="section">
 		<div id="item-c" class="box c item"></div>
-		<div class="box c-0 red item"></div>
+		<div id="opacity" class="box c-0 red item"></div>
 	</div>
 	<div id="section-3" class="section">
 		<div id="item-d" class="box d item"></div>
@@ -177,11 +197,11 @@ $(document).ready(function() {
 		<div id="vitem-b" class="box b item"></div>
 		<div class="box b-0 red"></div>
 		<div id="vitem-b-a" class="box b-a item"></div>
-		<div class="box b-a-0 green item"></div>
+		<div class="box b-a-0 green"></div>
 	</div>
 	<div id="v-section-2" class="section">
 		<div id="vitem-c" class="box c item"></div>
-		<div class="box c-0 red item"></div>
+		<div id="vopacity" class="box c-0 red item alpha">1 - 0</div>
 	</div>
 	<div id="v-section-3" class="section">
 		<div id="vitem-d" class="box d item"></div>

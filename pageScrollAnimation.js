@@ -37,7 +37,21 @@ $.fn.pageScrollAnimation = function(arg) {
 			if(calc > 0) {
 				$.each(this.order, function(key, value) {
 					var addUnit = unit[key] || '';
-					order[key] = Math.floor( calc * value ) + $item.data('prop')[key] + addUnit;
+					if( key === 'opacity' ) {
+						var zero = ( $parent.prev().hasClass('section')  && $parent.prev().data('prop')[d] )? $parent.prev().data('prop')[d] : 0;
+						var alpha = map(calc, zero, $parent.data('prop')[d], 0, 1);
+						if($item.data('prop')[key] > 0 ) {//0 -> 1
+							if(scrollPos < 1) {
+								order[key] = 0;
+							} else {
+								order[key] = 1 - alpha + $item.data('prop')[key];
+							}
+						} else {//1 -> 0
+							order[key] = alpha + $item.data('prop')[key];
+						}
+					} else {
+						order[key] = Math.floor( calc * value ) + $item.data('prop')[key] + addUnit;
+					}
 				});
 				$item.css(order);
 				if( Number($parent.attr('data-flg')) > 0 ) {
@@ -47,7 +61,11 @@ $.fn.pageScrollAnimation = function(arg) {
 			} else {
 				$.each(this.order, function(key, value) {
 					var addUnit = unit[key] || '';
-					order[key] = $item.data('prop')[key] + addUnit;
+					if( key === 'opacity' ) {
+						order[key] = $item.data('prop')[key];
+					} else {
+						order[key] = $item.data('prop')[key] + addUnit;
+					}
 				});
 				$item.css(order);
 				if( Number($parent.attr('data-flg')) < 0 ) {
@@ -65,20 +83,24 @@ $.fn.pageScrollAnimation = function(arg) {
 			    x = x || 0;
 			    y = y || 0;
 			$(this).data( 'prop', {left: x, top: y} );
-			$(this).attr('data-x', x);
-			$(this).attr('data-y', y);
 			$(this).attr('data-flg', -1);
 		});
 		$item.each(function(index) {
 			var x = Number( $(this).css('left').replace('px', '') );
 			var y = Number( $(this).css('top').replace('px', '') );
+			var a = $(this).css('opacity');
 			    x = x || 0;
 			    y = y || 0;
-			$(this).data( 'prop', {left: x, top: y} );
-			$(this).attr('data-x', x);
-			$(this).attr('data-y', y);
+			    a = a || 1;
+			$(this).data( 'prop', {left: x, top: y, opacity: a} );
 		});
 		callback();
+	};
+
+	function map(value,low1, high1, low2, high2) {
+		var moto = high1 - low1;
+		var ato  = high2 - low2;
+		return (ato / moto) * value;
 	};
 
 };
