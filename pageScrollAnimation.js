@@ -8,6 +8,10 @@ $.fn.pageScrollAnimation = function(arg) {
 	var d = (arg.direction === 'horizontal') ? 'left' : 'top';
 	var callback = arg.callback;
 
+	if($item.length < 1) {
+		throw new Error('must element .item');
+	}
+
 	init();
 	if(d === 'left') {
 		$(window).scrollLeft(1);
@@ -32,7 +36,12 @@ $.fn.pageScrollAnimation = function(arg) {
 			var $item = this.$target;
 			var $parent = this.$parent;
 			var order = {};
-			var calc = $parent.data('prop')[d] - scrollPos;
+			var calc;
+			if($parent.data('prop') && $parent.data('prop')[d]) {
+				calc = $parent.data('prop')[d] - scrollPos;
+			} else {
+				calc = 0;
+			}
 
 			if(calc > 0) {
 				$.each(this.order, function(key, value) {
@@ -64,7 +73,8 @@ $.fn.pageScrollAnimation = function(arg) {
 					if( key === 'opacity' ) {
 						order[key] = $item.data('prop')[key];
 					} else {
-						order[key] = $item.data('prop')[key] + addUnit;
+						if( $item.data('prop') && $item.data('prop')[key] )
+							order[key] = $item.data('prop')[key] + addUnit;
 					}
 				});
 				$item.css(order);
@@ -94,7 +104,8 @@ $.fn.pageScrollAnimation = function(arg) {
 			    a = a || 1;
 			$(this).data( 'prop', {left: x, top: y, opacity: a} );
 		});
-		callback();
+		if(callback)
+			callback();
 	};
 
 	function map(value,low1, high1, low2, high2) {
